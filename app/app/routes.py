@@ -48,8 +48,8 @@ def expressedgenes_consensustissue():
         return redirect(url_for('index'))
     return render_template('consensustissue.html', title='Consensus Tissue', form=form)
 
-
+'''
 @app.route('/ExpressedGenes/ConsensusTissues/Results')
 def expressedgenes_consensustissue_results(query_this):
-    
+''' 
 
