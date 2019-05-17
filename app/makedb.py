@@ -1,8 +1,9 @@
 
 from app import db
-from app.models import Sample, Gene
+from app.models import Sample, Gene, GeneQual
 import subprocess
 import pandas
+import ensemblrest import EnsemblRest
 
 #process = subprocess.Popen(['ls', '/media/jared/Drive/test/barcode_out'], stdout=subprocess.PIPE)
 
@@ -27,10 +28,11 @@ for each in files:
     print(each)
 
 '''
+'''
 with open('../GPL11154_normals.csv') as f:
     pandas_df = pandas.read_csv(f)
 print(pandas_df['Cell Type'])
-'''
+
 count = 0
 for index, row in pandas_df.iterrows():
     print(row['filename'])
@@ -48,4 +50,14 @@ for index, row in pandas_df.iterrows():
                 count += 1
 
 print(count)
+'''
+'''
+ensRest = EnsemblRest()
+for each in Sample.query.get(1).genes.all():
+    gene = each.split('.')[0]
+    geneinfo = ensRest.getLookupById(id=gene)
+    g = GeneQual(symbol=geneinfo['display_name'], name=geneinfo['description'], location='Chromosome {}: {}-{}'.format(geneinfo['seq_region_name'], geneinfo['start'], geneinfo['end']))
+    db.session.add(g)
+    db.session.commit()
+    db.session.
 '''

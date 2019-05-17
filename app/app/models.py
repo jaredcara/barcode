@@ -26,3 +26,10 @@ class Gene(db.Model):
     def __repr__(self):
         return '<Gene_id {}>'.format(self.gene_id)
 
+
+class GeneQual(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    symbol = db.Column(db.String(32))
+    name = db.Column(db.String(32))
+    location = db.Column(db.String(64))
+

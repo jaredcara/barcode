@@ -1,7 +1,7 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
-{% if title %}{{ title }} - DMBC{% else %}Welcome to DMBC{% endif %}
+{% if title %}{{ title }} - Barcode{% else %}Welcome to Barcode{% endif %}
 {% endblock %}
 
 {% block navbar %}
@@ -35,6 +35,10 @@
 	{% endif %}
 	{% endwith %}
 	{% block app_content%}{% endblock %}
+	<hr>
+	<body>
+        	<p>Please visit <a href="https://github.com/jaredcara/barcode" target="_blank">barcode GitHub</a>.</p>
+	</body>
 </div>
 {% endblock %}
 
