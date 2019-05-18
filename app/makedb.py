@@ -103,5 +103,5 @@ for each in Sample.query.get(1).genes.all():
     db.session.add(g)
     db.session.commit()
     db.session.
-'''
+''
 
