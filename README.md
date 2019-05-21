@@ -19,9 +19,11 @@ INSTALLATION:
 6. *Copy the app.db file from the google drive to barcode/app directory*
 
 To run the application:
+
 7. flask run
 
 To perform command line queries:
+
 8. flask shell 
 9. *do something*
 
