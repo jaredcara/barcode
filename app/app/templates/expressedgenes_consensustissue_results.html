@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Gene Name</th>
+			<th>Symbol</th>
+			<th>Location</th>
+			<th>Gene ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for gene in results %}
+		<tr>
+			<td>{{ gene.name }}</td>
+			<td>{{ gene.symbol }}</td>
+			<td>{{ gene.location }}</td>
+			<td>{{ gene.gene_id }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

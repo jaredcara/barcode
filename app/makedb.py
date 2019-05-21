@@ -13,9 +13,9 @@ from app.models import Sample, Gene
 import subprocess
 #   Import pandas for csv reading.
 import pandas
-import ensemblrest import EnsemblRest
+from ensemblrest import EnsemblRest
 
-
+'''
 #   Read all barcode files in directory to list "files".
 process = subprocess.Popen(['ls', '/media/jared/Drive/test/barcode_out'], stdout=subprocess.PIPE)
 stdout, stderr = process.communicate()
@@ -23,7 +23,6 @@ files = stdout.decode('ascii').splitlines()
 
 
 #   Reads all barcode file in files list.
-'''
 for each in files:
     # Strips ".barcode" from filename.
     each = each[:-8]
@@ -51,24 +50,22 @@ for each in files:
             db.session.add(g)
             line = f.readline()
     
+    print(s.SRR_id)
     # Commit session change for each sample.
     db.session.commit()
     # Expunge current session. This is for memory management, clears the session for the next sample to be added.
     db.session.expunge_all()
-'''
-'''
-with open('../GPL11154_normals.csv') as f:
-    pandas_df = pandas.read_csv(f)
-print(pandas_df['Cell Type'])
 
-count = 0
+print('done')
+
 #   Open the table with GSM table to retrieve sample tissue names.
 with open('../functions/GPL11154_normals.csv') as f:
     pandas_df = pandas.read_csv(f)
 
+
 #   Iterate each row in the table
 for index, row in pandas_df.iterrows():
-    
+    print(row['Cell Type'])
     # esearch command to retrieve information on sample.
     cmd = "esearch -db sra -query {} | efetch -format runinfo".format(row['filename'])
     # Run the esearch command.
@@ -87,21 +84,25 @@ for index, row in pandas_df.iterrows():
             
             # If this SRR id is in the database.
             if query:
-
+                
+                print(query)
                 # Update the row entry for sample.
                 # ExperimentID, tissue, and cell_type are added to this entry from the esearch results.
-                db.session.query(Sample).filter_by(SRR_id=each[0]).update(dict(experiment_id=row['ExperimentID'], tissue=row['Tissue'], cell_type=row['Cell Type']))
+                db.session.query(Sample).filter_by(SRR_id=each[0]).update(dict(GSM_acc=row['filename'], experiment_id=row['ExperimentID'], tissue=row['Tissue'], cell_type=row['Cell Type']))
                 db.session.commit()
 '''
 
-'''
 ensRest = EnsemblRest()
 for each in Sample.query.get(1).genes.all():
-    gene = each.split('.')[0]
-    geneinfo = ensRest.getLookupById(id=gene)
-    g = GeneQual(symbol=geneinfo['display_name'], name=geneinfo['description'], location='Chromosome {}: {}-{}'.format(geneinfo['seq_region_name'], geneinfo['start'], geneinfo['end']))
-    db.session.add(g)
-    db.session.commit()
-    db.session.
-''
+    if not GeneQual.query.filter_by(gene_id=each.gene_id).all():
+        
+        gene = each.gene_id.split('.')[0]
+        try:
+            geneinfo = ensRest.getLookupById(id=gene)
+            g = GeneQual(gene_id=each.gene_id, symbol=geneinfo['display_name'], name=geneinfo['description'], location='Chromosome {}: {}-{}'.format(geneinfo['seq_region_name'], geneinfo['start'], geneinfo['end']))
+        except:
+            print('error: ' + each.gene_id)
+            g = GeneQual(gene_id=each.gene_id)
+        db.session.add(g)
+        db.session.commit()
 
