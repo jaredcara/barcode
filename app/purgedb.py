@@ -1,8 +1,8 @@
 
 from app import db
-from app.models import Sample, Gene
+from app.models import Tissue, Gene
 
-for each in Sample.query.all():
+for each in Tissue.query.all():
     db.session.delete(each)
 
 for each in Gene.query.all():

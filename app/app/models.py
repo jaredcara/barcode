@@ -19,23 +19,20 @@ from app import app, db
 #   -GSM_acc is the GSM accession from where the SRR came from ('GSM1010946').
 #   -Experiment id an NCBI id for the experiment ('GSE16256').
 #   -Genes is a reference to the Gene table for a samples gene data.
-class Sample(db.Model):
+class Tissue(db.Model):
     # Primary key.
     id = db.Column(db.Integer, primary_key=True)
     # SRR_id, unique identifier for each row in table.
-    SRR_id = db.Column(db.String(10), index=True, unique=True)
+    tissue = db.Column(db.String(64), index=True, unique=True)
 
-    GSM_acc = db.Column(db.String(10))
-    experiment_id = db.Column(db.String(10))
-    tissue = db.Column(db.String(64))
     cell_type = db.Column(db.String(64))
-    
+
     # Reference to the Gene table.
     genes = db.relationship('Gene', backref='name', lazy='dynamic')
     
     # Returns the Sample type.
     def __repr__(self):
-        return '<SRR_id {}>'.format(self.SRR_id)
+        return '<Tissue {}>'.format(self.tissue)
 
 
 ##  Gene class initializes the Gene table for the database.
@@ -50,8 +47,10 @@ class Gene(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gene_id = db.Column(db.String(20), index=True)
     
-    barcode = db.Column(db.Boolean)
-    sample_id = db.Column(db.Integer, db.ForeignKey('sample.id'))
+    barcode_count = db.Column(db.Integer)
+    total_count = db.Column(db.Integer)
+
+    tissue = db.Column(db.Integer, db.ForeignKey('tissue.id'))
     
     # Returns the Gene type.
     def __repr__(self):

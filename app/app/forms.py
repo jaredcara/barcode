@@ -8,25 +8,14 @@
 ##  Import packages.
 #   Flask wtf and wtforms are the packages used to manage forms.
 from flask_wtf import FlaskForm
-from wtforms import SelectField, RadioField, SubmitField, DecimalField
+from wtforms import SelectField, RadioField, SubmitField, DecimalField, TextAreaField
 from wtforms.validators import DataRequired, NumberRange
 
 
-##  InputTypeSelectionForm class manages initial choices consensus/individual.
-#   Input type and submit fields.
-class InputTypeSelectionForm(FlaskForm):
-    # Input type is a Radio field, select one or the other.
-    # Choices is a list of tuples, [(label, data), (label, data)].
-    input_type = RadioField('Input type',\
-            choices=[('Consensus Tissue', 'Consensus Tissue'),\
-                ('Individual Sample', 'Individual Sample')])
-    submit = SubmitField('Next')
-
-
-##  ExpressedGenesForm_Consensus class manages choices for consensus
+##  ExpressedGenesForm class manages choices for consensus
 ##  tissue comparisons.
 #   Select_tissue, proportion, and submit fields.
-class ExpressedGenesForm_Consensus(FlaskForm):
+class ExpressedGenesForm(FlaskForm):
     # Coerce is used so the selection is dynamic, choices are 
     # queried from the database.
     select_tissue = SelectField('Tissue', coerce=int)
@@ -40,10 +29,10 @@ class ExpressedGenesForm_Consensus(FlaskForm):
     submit = SubmitField('Submit')
 
 
-##  Form_Consensus class manages choices for consensus
+##  TissueComparisonForm class manages choices for consensus
 ##  tissue comparisons.
 #   Select_tissue, proportion, and submit fields.
-class TissueComparisonForm_Consensus(FlaskForm):
+class TissueComparisonForm(FlaskForm):
     # Coerce is used so the selection is dynamic, choices are
     # queried from the database.
     select_tissue1 = SelectField('Tissue 1', coerce=int)
@@ -63,4 +52,15 @@ class TissueComparisonForm_Consensus(FlaskForm):
     select_tissue2 = SelectField('Tissue 2', coerce=int)
     
     submit = SubmitField('Submit')
+
+
+class GeneCatalogForm(FlaskForm):
+    input_type = RadioField('Input type', choices=[('symbol', 'Gene Symbol'), ('gene_id', 'ENSG gene id')], validators=[DataRequired()])
+    text_entry = TextAreaField('Genes:', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+    def validate_text(form, field):
+        for each in field:
+            if each[:4] != 'ENSG':
+                raise ValidationError('Genes must begin with ENSG')
 
