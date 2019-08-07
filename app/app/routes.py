@@ -133,7 +133,7 @@ def genecatalog():
     
     if form.validate_on_submit():
         # = []
-        '''
+        
         for each in form.text_entry.data.split():
             if each[:4] == 'ENSG':
                 
@@ -141,7 +141,7 @@ def genecatalog():
                 print(each + 'no')
         print(form.input_type.data)
         return redirect(url_for('index'))
-        '''
+        
     return render_template('genecatalog.html',
             title='Gene Catalog',
             form=form)
