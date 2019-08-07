@@ -8,8 +8,6 @@ Devlopment uisng Python3.6.7, although other versions of Python3 may work.
 DATABASE:
 Three tables exist, Tissue, Gene, GeneQual.
 
-The makedb.py shows how query functions work. I am adding some examples to the the Wiki.
-
 INSTALLATION:
 1. git clone https://github.com/jaredcara/barcode.git
 2. cd barcode/app
