@@ -126,7 +126,7 @@ def tissuecomparison():
             form=form)
 
 
-
+'''
 @app.route('/GeneCatalog', methods=['GET', 'POST'])
 def genecatalog():
     form = GeneCatalogForm()
@@ -145,4 +145,4 @@ def genecatalog():
     return render_template('genecatalog.html',
             title='Gene Catalog',
             form=form)
-
+'''
